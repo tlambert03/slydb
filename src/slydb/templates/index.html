@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>File Upload</title>
+    <style>
+      #drop_zone {
+        border: 2px dashed #bbb;
+        height: 200px;
+        width: 500px;
+        text-align: center;
+        padding: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="drop_zone">Drop files here</div>
+    <form
+      id="upload_form"
+      action="{{ upload_url }}"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="file" name="file" id="file" />
+    </form>
+    <script>
+      var dropZone = document.getElementById("drop_zone");
+      var uploadForm = document.getElementById("upload_form");
+
+      dropZone.ondrop = function (e) {
+        e.preventDefault();
+        this.className = "upload-drop-zone";
+
+        uploadForm["file"].files = e.dataTransfer.files;
+
+        uploadForm.submit();
+      };
+
+      dropZone.ondragover = function () {
+        this.className = "upload-drop-zone drop";
+        return false;
+      };
+
+      dropZone.ondragleave = function () {
+        this.className = "upload-drop-zone";
+        return false;
+      };
+    </script>
+  </body>
+</html>
