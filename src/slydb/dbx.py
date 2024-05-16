@@ -1,3 +1,4 @@
+from concurrent.futures import ThreadPoolExecutor
 import fnmatch
 import getpass
 import os
@@ -26,6 +27,15 @@ def recursive_glob(
     while response.has_more:
         response = dbx.files_list_folder_continue(response.cursor)
         yield from _process_entries(response.entries)
+
+
+ACCESS_TOKEN = os.getenv("DROPBOX_ACCESS_TOKEN") or getpass.getpass(
+    "Enter your Dropbox access token: "
+)
+if not ACCESS_TOKEN:
+    raise ValueError("No access token provided")
+
+dbx = dropbox.Dropbox(ACCESS_TOKEN)
 
 
 def process_file(entry: FileMetadata):
@@ -60,17 +70,14 @@ def process_file(entry: FileMetadata):
     return slides
 
 
-ACCESS_TOKEN = os.getenv("DROPBOX_ACCESS_TOKEN") or getpass.getpass(
-    "Enter your Dropbox access token: "
-)
-if not ACCESS_TOKEN:
-    raise ValueError("No access token provided")
-
-dbx = dropbox.Dropbox(ACCESS_TOKEN)
-fpath = "/NIC Team"
-n = 0
-for _i in recursive_glob(dbx, fpath, "*.key", exclude_patterns=("handout",)):
-    process_file(_i)
-    n += 1
-    if n > 5:
-        break
+def index_folder(fpath="/NIC Team", max_files=5, exclude_patterns=("handout",)):
+    with ThreadPoolExecutor(max_workers=8) as executor:
+        n = 0
+        for _i in recursive_glob(
+            dbx, fpath, "*.key", exclude_patterns=exclude_patterns
+        ):
+            if n >= max_files:
+                break
+            future = executor.submit(process_file, _i)
+            future.add_done_callback(lambda f: print(f.result()))
+            n += 1
