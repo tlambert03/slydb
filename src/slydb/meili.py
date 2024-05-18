@@ -80,7 +80,7 @@ def meili_client(host, port, key=None):
     client = meilisearch.Client(f"http://{host}:{port}", key)
     proc = None
     if not client.is_healthy():
-        proc = subprocess.Popen(["meilisearch"])  # noqa
+        proc = subprocess.Popen(["meilisearch"])
         i = 0
         while not client.is_healthy():
             time.sleep(0.1)

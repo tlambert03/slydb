@@ -1,6 +1,5 @@
 from google.protobuf.json_format import MessageToDict
 from google.protobuf.message import Message
-from keynote_parser.codec import IWAArchiveSegment, IWACompressedChunk
 from rich import print
 
 from slydb.keynote import KeynoteFile

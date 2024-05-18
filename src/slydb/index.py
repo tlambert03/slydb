@@ -1,7 +1,6 @@
 import json
-from concurrent.futures import ThreadPoolExecutor
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
 
 import tqdm
 

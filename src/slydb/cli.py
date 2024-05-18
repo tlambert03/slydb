@@ -9,7 +9,6 @@ def main():
     files in that folder.
     `serve` starts a web server to view the indexed Keynote files.
     """
-
     parser = argparse.ArgumentParser(description="Index and serve Keynote files")
     subparsers = parser.add_subparsers(dest="command")
 

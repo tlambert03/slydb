@@ -204,7 +204,7 @@ class Slide:
 
     @cached_property
     def thumb_hash(self) -> str:
-        digest = hashlib.sha1(self.thumbnail_bytes).digest()  # noqa
+        digest = hashlib.sha1(self.thumbnail_bytes).digest()
         return base64.b64encode(digest).decode("utf-8")
 
     def save_thumb(self, path: str | PathLike) -> Path:

@@ -1,11 +1,11 @@
 from __future__ import annotations
 
 import base64
-from hashlib import sha256
 import logging
 import uuid
 from contextlib import suppress
 from functools import cached_property
+from hashlib import sha256
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, ClassVar, NamedTuple, TypeVar, Union
 from zipfile import ZipFile
@@ -85,7 +85,6 @@ class PBtype(
     Struct,
     tag_field="_pbtype",
     tag=lambda x: x.replace("_", "."),
-    frozen=True,
     kw_only=True,
 ): ...
 
