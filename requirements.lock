@@ -10,16 +10,24 @@
 -e file:.
 blinker==1.8.2
     # via flask
+certifi==2024.2.2
+    # via requests
+charset-normalizer==3.3.2
+    # via requests
 click==8.1.7
     # via flask
 colorama==0.4.6
     # via keynote-parser
 cramjam==2.8.3
     # via python-snappy
+dropbox==12.0.0
+    # via slydb
 flask==3.0.3
     # via slydb
 future==1.0.0
     # via keynote-parser
+idna==3.7
+    # via requests
 itsdangerous==2.2.0
     # via flask
 jinja2==3.1.4
@@ -31,13 +39,25 @@ markupsafe==2.1.5
     # via werkzeug
 pillow==10.3.0
     # via keynote-parser
+ply==3.11
+    # via stone
 protobuf==5.26.1
     # via keynote-parser
 python-snappy==0.7.1
     # via keynote-parser
 pyyaml==6.0.1
     # via keynote-parser
+requests==2.29.0
+    # via dropbox
+six==1.16.0
+    # via dropbox
+    # via stone
+stone==3.3.1
+    # via dropbox
 tqdm==4.66.4
     # via keynote-parser
+urllib3==1.26.18
+    # via dropbox
+    # via requests
 werkzeug==3.0.3
     # via flask
