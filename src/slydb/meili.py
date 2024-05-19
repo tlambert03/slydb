@@ -6,6 +6,7 @@ import time
 from contextlib import contextmanager, nullcontext
 from pathlib import Path
 from threading import Thread
+import webbrowser
 
 import meilisearch
 import meilisearch.errors
@@ -15,7 +16,7 @@ def meili_main(
     records: list[dict] | str | Path,
     meili_port: int = 7700,
     meili_host: str = "localhost",
-    meili_key: str | None = "masterKey",
+    meili_key: str | None = None,
     thumb_dir: str | Path | None = "thumbnails",
     thumb_port: int = 8888,
     thumb_host: str = "localhost",
@@ -49,6 +50,7 @@ def meili_main(
                 print("\nDocuments indexed successfully", task.details)
                 print("MeiliSearch server running at", client.config.url)
                 print("Press Ctrl+C to stop the server")
+                webbrowser.open(client.config.url)
                 while True:
                     pass
 
@@ -80,7 +82,10 @@ def meili_client(host, port, key=None):
     client = meilisearch.Client(f"http://{host}:{port}", key)
     proc = None
     if not client.is_healthy():
-        proc = subprocess.Popen(["meilisearch"])
+        cmd = ["meilisearch", "--http-addr", f"{host}:{port}"]
+        if key:
+            cmd.extend(["--master-key", key])
+        proc = subprocess.Popen(cmd)
         i = 0
         while not client.is_healthy():
             time.sleep(0.1)
